@@ -1,0 +1,217 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      7749,        209]
+NotebookOptionsPosition[      7226,        192]
+NotebookOutlinePosition[      7569,        207]
+CellTagsIndexPosition[      7526,        204]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"n", "=", "2"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"r", ":=", 
+   RowBox[{"RandomInteger", "[", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "n"}], "}"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"f", ":=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"#", "/", 
+         RowBox[{"(", 
+          RowBox[{".01", "+", 
+           RowBox[{"Sqrt", "[", 
+            RowBox[{"#", ".", "#"}], "]"}]}], ")"}]}], ")"}], "&"}], "/@", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"x", "[", 
+         RowBox[{"[", "#", "]"}], "]"}], "-", "x"}], ")"}]}], "&"}]}], ";"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Everything", " ", "is", " ", "done", " ", "in", " ", "relation", " ", 
+    "to", " ", "the", " ", "point", " ", 
+    RowBox[{"x", "[", 
+     RowBox[{"[", "#", "]"}], "]"}]}], "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"s", ":=", 
+   RowBox[{"With", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"r1", "=", "r"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"p", "[", 
+        RowBox[{"[", "r1", "]"}], "]"}], "=", "r"}], ";", 
+      RowBox[{
+       RowBox[{"q", "[", 
+        RowBox[{"[", "r1", "]"}], "]"}], "=", "r"}]}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"x", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"n", ",", "2"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"p", ",", "q"}], "}"}], "=", 
+   RowBox[{"RandomInteger", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "n"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", "n"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{"Graphics", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"PointSize", "[", "0.007", "]"}], ",", 
+     RowBox[{"Dynamic", "[", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"r", "<", "100"}], ",", "s"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Point", "[", 
+        RowBox[{"x", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"0.995", " ", "x"}], "+", 
+          RowBox[{"0.01", " ", 
+           RowBox[{"f", "[", "p", "]"}]}], "-", 
+          RowBox[{"0.01", 
+           RowBox[{"f", "[", "q", "]"}]}]}]}], " ", "]"}]}], "]"}]}], "}"}], 
+   ",", 
+   RowBox[{"PlotRange", "\[Rule]", "2"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"count", " ", "=", " ", "0"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Dynamic", "[", 
+  RowBox[{
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"count", " ", ">", " ", 
+      RowBox[{"2", "*", "Pi"}]}], ",", " ", 
+     RowBox[{"count", " ", "=", " ", "0"}], ",", " ", 
+     RowBox[{"count", " ", "=", " ", 
+      RowBox[{"count", " ", "+", " ", "0.1"}]}]}], "]"}], ";", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "[", 
+     RowBox[{"[", 
+      RowBox[{"1", ",", "1"}], "]"}], "]"}], " ", "=", 
+    RowBox[{
+     RowBox[{"Cos", "[", "count", "]"}], "/", "2"}]}], ";", " ", 
+   RowBox[{
+    RowBox[{"x", "[", 
+     RowBox[{"[", 
+      RowBox[{"1", ",", "2"}], "]"}], "]"}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"Sin", "[", "count", "]"}], "/", "2"}]}], ";", " ", 
+   RowBox[{"y", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"Sin", "[", "count", "]"}], "/", "2"}]}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7573272555687385`*^9, 3.7573273624370527`*^9}, {
+  3.7573273936150246`*^9, 3.7573274148188496`*^9}, {3.7573274615849705`*^9, 
+  3.757327474595294*^9}, {3.7573275058982306`*^9, 3.7573276939258842`*^9}, {
+  3.7573277368587074`*^9, 3.7573278454538116`*^9}, {3.7573279067286215`*^9, 
+  3.7573280148645573`*^9}, {3.7573280678963814`*^9, 3.7573280681463776`*^9}, {
+  3.7573281441149244`*^9, 3.75732823595932*^9}, {3.7573282680002975`*^9, 
+  3.757328279455138*^9}, {3.757328591017743*^9, 3.757328798255218*^9}, {
+  3.757328837447508*^9, 3.757328893710011*^9}, {3.7573289340582447`*^9, 
+  3.75732893618756*^9}, {3.7573291668470955`*^9, 3.757329309646468*^9}, {
+  3.7573375188088727`*^9, 
+  3.7573375405224433`*^9}},ExpressionUUID->"f08a19bb-e909-4149-b941-\
+3a1853068bc9"],
+
+Cell[BoxData[
+ GraphicsBox[
+  {PointSize[0.007], 
+   DynamicBox[Typeset`ToBoxes[
+    If[$CellContext`r < 100, $CellContext`s]; 
+     Point[$CellContext`x = 
+       0.995 $CellContext`x + 0.01 $CellContext`f[$CellContext`p] - 
+        0.01 $CellContext`f[$CellContext`q]], StandardForm, Graphics],
+    ImageSizeCache->{{178.61061691539507`, 
+     181.13061691539508`}, {-4.23245317765843, -1.71245317765843}}]},
+  PlotRange->2]], "Output",
+ CellChangeTimes->{{3.7573272574458094`*^9, 3.7573273628821*^9}, {
+   3.7573274051650314`*^9, 3.7573274181903415`*^9}, {3.7573274692861757`*^9, 
+   3.757327502957609*^9}, {3.7573275970226407`*^9, 3.7573276949737115`*^9}, {
+   3.757327768349044*^9, 3.757327847794937*^9}, 3.7573279357246523`*^9, {
+   3.7573280008829107`*^9, 3.7573280153815904`*^9}, 3.7573280688513346`*^9, 
+   3.7573281412355127`*^9, {3.7573281991135*^9, 3.7573282363864503`*^9}, 
+   3.7573282760135365`*^9, {3.757328612564789*^9, 3.7573287200387545`*^9}, {
+   3.7573287574226685`*^9, 3.7573288007018576`*^9}, 3.757328894132242*^9, {
+   3.7573292074259005`*^9, 3.7573293169734097`*^9}, {3.7573375138327074`*^9, 
+   3.7573375165261655`*^9}},
+ CellLabel->"Out[16]=",ExpressionUUID->"c06ccd52-2b99-4dba-92ca-69e3a8993c72"],
+
+Cell[BoxData[
+ DynamicBox[ToBoxes[
+  If[$CellContext`count > 2 Pi, $CellContext`count = 
+     0, $CellContext`count = $CellContext`count + 0.1]; 
+   Part[$CellContext`x, 1, 1] = Cos[$CellContext`count]/2; 
+   Part[$CellContext`x, 1, 2] = Sin[$CellContext`count]/2; $CellContext`y = 
+    Sin[$CellContext`count]/2, StandardForm],
+  ImageSizeCache->{72., {0., 8.}}]], "Output",
+ CellChangeTimes->{{3.7573272574458094`*^9, 3.7573273628821*^9}, {
+   3.7573274051650314`*^9, 3.7573274181903415`*^9}, {3.7573274692861757`*^9, 
+   3.757327502957609*^9}, {3.7573275970226407`*^9, 3.7573276949737115`*^9}, {
+   3.757327768349044*^9, 3.757327847794937*^9}, 3.7573279357246523`*^9, {
+   3.7573280008829107`*^9, 3.7573280153815904`*^9}, 3.7573280688513346`*^9, 
+   3.7573281412355127`*^9, {3.7573281991135*^9, 3.7573282363864503`*^9}, 
+   3.7573282760135365`*^9, {3.757328612564789*^9, 3.7573287200387545`*^9}, {
+   3.7573287574226685`*^9, 3.7573288007018576`*^9}, 3.757328894132242*^9, {
+   3.7573292074259005`*^9, 3.7573293169734097`*^9}, {3.7573375138327074`*^9, 
+   3.7573375165341616`*^9}},
+ CellLabel->"Out[18]=",ExpressionUUID->"8b4be8e9-51ab-49de-81ee-c584c9e7a27e"]
+}, Open  ]]
+},
+WindowSize->{759, 643},
+WindowMargins->{{Automatic, 332}, {24, Automatic}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 4237, 124, 257, "Input",ExpressionUUID->"f08a19bb-e909-4149-b941-3a1853068bc9"],
+Cell[4820, 148, 1225, 21, 377, "Output",ExpressionUUID->"c06ccd52-2b99-4dba-92ca-69e3a8993c72"],
+Cell[6048, 171, 1162, 18, 32, "Output",ExpressionUUID->"8b4be8e9-51ab-49de-81ee-c584c9e7a27e"]
+}, Open  ]]
+}
+]
+*)
+
