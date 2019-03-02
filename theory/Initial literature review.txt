@@ -1,0 +1,25 @@
+Initial literature review
+
+The Chorus-line hypothesis of manoeuvre coordination in avian flocks by Wayne K. Potts 1984
+-there is some kind of preliminary movement made by a "threshold" number of birds
+-birds manoeuvre right when the "wave" approaches them
+-reaction times increase in an exponential fashion
+
+The Structure and Function of Fish Schools by Brian L. Partridge 1982
+-fish are similar to birds but have a different "fleeing" behaviour
+-fish use sight and lateral line, birds only sight
+-fish are attacked directly by the predator and so they disperse into a sphere and then regroup
+-birds get attacked only at the edges of the flock
+	-> bird of prey should have some repulsion as well, perhaps a "threshold repulsion" to avoid collision
+
+Flocks, Herds, and Schools: A Distributed Behavioral Model by Craig W. Reynolds
+-Rules for flocks
+	1. Collision avoidance
+	2. Velocity matching
+	3. Flock centering
+
+-Collision avoidance and velocity matching should be vector quantities that account for heading a speed
+	-static collision avoidance establishes minimum separation distance and velocity matching maintains it
+-Flock centering refers to local flocks of 3 or 4 birds
+-It is important to figure out a way to arbitrage behaviour between boids
+
