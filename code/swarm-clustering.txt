@@ -1,0 +1,68 @@
+n = 200;
+(*x = Table[0.1*i+0.1*j,{i,n},{j,2}];*)
+x = RandomReal[{-1, 1}, {n, 2}];
+(*x = Table[0,{i,n},{j,2}];
+nT = (n-1)*0.1;*)
+(*x[[All,1]] = Range[0,nT,0.1];*)
+(*x[[All,2]] = Range[0,nT,0.1];*)
+(*x[[1]] = {0,1};
+x[[2]] = {1,0};
+x[[3]] = {0,-1};
+x[[4]] = {-1,0};*)
+(*x[[5]] = {-1.75,-1.75};*)
+(*x[[3]] = Mean[{x[[1]],x[[2]], x[[4]]}]*)
+count = 0;
+Graphics[
+ {PointSize[0.007],
+  Dynamic[
+   (*Point[x]*)
+   MapThread[{#1, 
+      MapIndexed[
+       Text[First@#2, #1] &, #2]} &, {{Red}, {x}}] (*Gives the points \
+colour and a number*)
+   ]
+  },
+ PlotRange -> 2
+ ]
+
+(*Mean[NearestTo[x[[1]],3][x]]*)
+(*Print["Distance Matrix for 1"]
+DeleteCases[DistanceMatrix[x][[1]],0.]
+Print["Minimum in that matrix"]
+Min[DeleteCases[DistanceMatrix[x][[1]],0.]]
+Print["nearest three points"]
+NearestTo[x[[1]],3][x]*)
+(*Print["Distance Matrix"]
+MatrixForm[DistanceMatrix[x]]*)
+
+For[j = 1, j < 30, j++, Pause[0.2];
+ (*Print[j];*)
+ For[i = 1, i < n, i++,
+  (*Print[DeleteCases[Flatten[DistanceMatrix[x[[i]]]],0.]];*)
+  If[Min[DeleteCases[DistanceMatrix[x][[i]], 0.]] > 
+    0.1, (*This line decides whether the "future" point is too close \
+to other boids or not*)
+   x[[i]] = 
+    Mean[NearestTo[x[[i]], 100][x]] (*If it is sufficiently far, 
+   it resolves and takes the "future" coordinates*)
+   (*I want to change the future point to be halfway distances \
+between the "current" and "future" points*)
+   ];
+  (*Add a random small number to one of either axis*)
+  memberSel := RandomInteger[{1, n}];
+  cordSel := RandomChoice[{1, 2}];
+  x[[memberSel, cordSel]] = 
+   x[[memberSel, cordSel]]  + RandomChoice[{-0.1, 0.1}];
+  ]
+ (*Find the smallest value and if it is still bigger than 0.3, do it, \
+otherwise move on*)
+ ]
+Print["After loop"]
+(*Print["Distance Matrix for 1"]
+DeleteCases[DistanceMatrix[x][[1]],0.]
+Print["Minimum in that matrix"]
+Min[DeleteCases[DistanceMatrix[x][[1]],0.]]
+Print["nearest three points"]*)
+(*NearestTo[x[[1]],3][x]*)
+(*Print["Distance Matrix"]
+MatrixForm[DistanceMatrix[x]]*)
