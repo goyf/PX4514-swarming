@@ -1,0 +1,48 @@
+(* Enemy avoidance demonstration *)
+ClearAll["Global`*"];
+n = 50; (* Number of points *)
+mapSize = 0.8;
+
+hunterCoordinates = ConstantArray[0, 3]; (* Centered start point *)
+x = RandomReal[{-mapSize, mapSize}, {n, 
+    3}]; (* Random creature points *)
+
+(* Vector Distance *)
+vecXH := -x + ConstantArray[hunterCoordinates[[]], {n}]
+
+(* Euclidean Distance *)
+magXH := Outer[EuclideanDistance, hunterCoordinates, x, 1]
+
+(* Standardised Move direction *)(* {1,1,1} cube *)
+dirXH := Outer[Normalize, vecXH, 1]
+
+(* Movement vector corresponding to a move away from the hunter for \
+each creature. *)
+movXH := dirXH/(25*magXH[[1]])
+
+Framed[
+ Show[{
+   Graphics3D[{PointSize[0.03], Red, Point[hunterCoordinates]}, 
+    ImageSize -> Large, SphericalRegion -> True, 
+    PlotRange -> 1.25*mapSize, Axes -> True
+    ]},
+  x = x; (* For neatness sake. *)
+  {
+   Graphics3D[{PointSize[0.01], Orange, Point[x]}
+    ]},
+  x = x - movXH; (* 
+  Advance creatures by one move relative to hunter. *)
+  {
+   Graphics3D[{PointSize[0.0125], Brown, Point[x]}
+    ]},
+  x = x - movXH; (* 
+  Advance creatures by one move relative to hunter. *)
+  {
+   Graphics3D[{PointSize[0.015], Brown, Point[x]}
+    ]},
+  x = x - movXH; (* 
+  Advance creatures by one move relative to hunter. *)
+  {
+   Graphics3D[{PointSize[0.02], Black, Point[x]}
+    ]}
+  ]]

@@ -1,0 +1,7 @@
+(n=50;\text{mapSize}=0.8;) (\text{ClearAll}[\text{Global$\grave{ }$*}];) \left(\text{movXL}\text{:=}\frac{1}{10} \text{dirXL} \text{magXL}[[1]]\right) (\text{dirXL}\text{:=}\text{Outer}[\text{Normalize},\text{vecXL},1]) (\text{magXL}\text{:=}\text{Outer}[\text{EuclideanDistance},\text{leaderCoordinates},x,1]) \fbox{$\text{Show}[\{\},x=x;\{\},x=\text{movXL}+x;\{\},x=\text{movXL}+x;\{\},x=\text{movXL}+x;\{\}]$} (\text{leaderCoordinates}=\text{ConstantArray}[0,3];x=\text{RandomReal}[\{-\text{mapSize},\text{mapSize}\},\{n,3\}];\text{vecXL}\text{:=}\text{ConstantArray}[\text{Part}[\text{leaderCoordinates}],\{n\}]-x)
+
+(\text{dirXL}\text{:=}\text{Outer}[\text{Normalize},\text{vecXL},1]) (\text{magXL}\text{:=}\text{Outer}[\text{EuclideanDistance},\text{leaderCoordinates},x,1]) (x=\text{RandomReal}[\{-\text{mapSize},\text{mapSize}\},\{n,3\}];\text{vecXL}\text{:=}\text{ConstantArray}[\text{Part}[\text{leaderCoordinates}],\{n\}]-x)
+
+\text{vecXL}\text{:=}\text{ConstantArray}[\text{Part}[\text{leaderCoordinates}],\{n\}]-x
+
+\text{vecXL}\text{:=}\text{ConstantArray}[\text{Part}[\text{leaderCoordinates}],\{n\}]-x
