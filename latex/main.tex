@@ -174,6 +174,27 @@ In the simplest case this may be the centre of the screen (0,0).
 It may also be a moveable point, possibly representing a desired direction or leader, although studies have shown that swarming lacks a definite leader in almost all cases.\cite{modellingflocks}
 The draw to the leader is programatically defined to be directly proportional to the distance from the target. (FIG. \ref{fig:boidleader})
 
+\subsection{\label{sec:level2}Combined behaviour of birds and fish}
+
+As mentioned previously, animals swarm for the purpose of safety. Birds and fish are particularly a good example of this with both having different reasons and protection mechanisms that enable this.??
+
+Birds have extremely keen eyesight and therefore hiding in large numbers does not work. However, due to the effects of gravity, avivores must actively engage in flight motion, which requires the target to have enough space around it, and so they are forced to hunt birds that are at the edge of the flock, to avoid collision, which in turn incetivises cohesion among flocking birds.
+
+Bird flocking is a relatively simple behaviour that does not have any specific shape or form, disregarding a flock a of migratory birds. Their defence against predator is also quite primitive but actually very simple. When attacked, the birds simply disperse into all directions. This is effective because the actual predator has to avoid collision as well and therefore has to be extremely mindful of what it is attacking and focus only at the edges of the flock.
+
+Conversely, fish group because the aquatic environment scatters and absorbs light, which gives the fish somewhat of a cover and therefore as the predator randomly searches the environment, they are less likely to find the fish. However, the fish must also have a mechanism of how to avoid being eaten. As mentioned previously, fish need to have a mechanism to avoid being eaten when faced with a predator. Schools have adopted the so called fountain manoeuvre, which takes advantage of the predator's momentum by swimming towards it when it attacks. 
+
+\begin{figure}[!htp]
+	\includegraphics[width=0.48\textwidth]{images/partridgeFountain.png}
+
+	\caption{
+		Several animals (in black) fly towards a goal (in blue).
+		The velocity at which the creature attempts to reach the goal is affected positively by distance.
+	}
+
+	\label{fig:boidleader}
+\end{figure}
+
 \section{\label{sec:level1}Object Oriented Programming (OOP)}
 
 Mathematica does not inherently support object oriented programming, so the majority of the calculations for larger swarms mjust be solved using matrices.
