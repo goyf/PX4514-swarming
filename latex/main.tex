@@ -274,10 +274,26 @@ Other vector components included were random noise and a move towards the center
 It was decided to use a logarithmic weighting for these calculations, where the closest boid represented the largest influence and a calculation for these weightings was calculated as a constant array, allowing quick application and the ability of the model to run in real time.
 To gain data on the effectiveness of this swarming and hiding, a ``kill" function was added to the hunter, where boids within a certain distance of the hunter would be eaten, and the data for this function recorded for each calculation step, resulting in a plot of living boids with time.
 
+\section{\label{sec:level2}Discussion}
+Light OOP was chosen
+Post death rate and compare between 2D and 3D %in images under popDec
+Point out the oribiting problem %an image should exist as well
+
+\section{\label{sec:level1}Conclusion}
+Theory was discussed
+Different approached were discussed
+Light OOP method was chosen because of use with the Mathematica tool
+The performance of the model was fairly good as the death rate is not constant
+There's also the fact that the boids stick to the origin for better testing
+Also, in 2D, boids form donuts but this is okay as the model we have is designed for 3D, not 2D.
+
+Mention that it would be more interesting to work on hunters
+
+
 % ****** Past here be the bibliography ******
 
 	\bibliographystyle{ieeetr}
-	\bibliography{references.bib}
+	\bibliography{references}
 
 \end{document}
 
