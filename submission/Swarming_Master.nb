@@ -1,0 +1,1943 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     80512,       1935]
+NotebookOptionsPosition[     79718,       1917]
+NotebookOutlinePosition[     80064,       1932]
+CellTagsIndexPosition[     80021,       1929]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Enemy", " ", "avoidance", " ", "demonstration"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"n", "=", "50"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Number", " ", "of", " ", "points"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"mapSize", "=", "0.8"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dim", "=", "2"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "=", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "mapSize"}], ",", "mapSize"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "dim"}], "}"}]}], "]"}]}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Random", " ", "creature", " ", "points"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"leaderCoordinates", " ", "=", " ", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"0", ",", "dim"}], "]"}]}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Centered", " ", "start", " ", "point"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Vector", " ", "Distance"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"vecXL", ":=", 
+     RowBox[{
+      RowBox[{"-", "x"}], "+", 
+      RowBox[{"ConstantArray", "[", 
+       RowBox[{
+        RowBox[{"leaderCoordinates", "[", 
+         RowBox[{"[", "]"}], "]"}], ",", 
+        RowBox[{"{", "n", "}"}]}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Euclidean", " ", "Distance"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"magXL", ":=", 
+     RowBox[{"0.5", "*", 
+      RowBox[{"Outer", "[", 
+       RowBox[{
+       "EuclideanDistance", ",", "leaderCoordinates", ",", "x", ",", "1"}], 
+       "]"}]}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Standardised", " ", "Move", " ", "direction"}], " ", "*)"}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}], " ", "cube"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dirXL", ":=", 
+     RowBox[{"Outer", "[", 
+      RowBox[{"Normalize", ",", "vecXL", ",", "1"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Movement", " ", "vector", " ", "corresponding", " ", "to", " ", "a", " ",
+      "move", " ", "away", " ", "from", " ", "the", " ", "hunter", " ", "for",
+      " ", "each", " ", 
+     RowBox[{"creature", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"movXL", ":=", 
+     RowBox[{"dirXL", "*", 
+      RowBox[{
+       RowBox[{"magXL", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], "/", "10"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"Framed", "[", "\[IndentingNewLine]", 
+    RowBox[{"Show", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.03", "]"}], ",", "Blue", ",", 
+           RowBox[{"Point", "[", "leaderCoordinates", "]"}]}], "}"}], ",", 
+         RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"dim", "\[Equal]", "3"}], ",", 
+            RowBox[{"SphericalRegion", "\[Rule]", "True"}]}], "]"}], ";", 
+          RowBox[{"PlotRange", "\[Rule]", 
+           RowBox[{"1.25", "*", "mapSize"}]}]}], ",", 
+         RowBox[{"Axes", "\[Rule]", "True"}]}], "\[IndentingNewLine]", "]"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", "x"}], ";", 
+       RowBox[{"(*", " ", 
+        RowBox[{"For", " ", "neatness"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.01", "]"}], ",", "Orange", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "+", "movXL"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.0125", "]"}], ",", "Brown", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "+", "movXL"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.015", "]"}], ",", "Brown", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "+", "movXL"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.02", "]"}], ",", "Black", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}]}], "\[IndentingNewLine]", "]"}], "]"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.762589463811877*^9, 3.7625895017172575`*^9}, {
+   3.7625897496077805`*^9, 3.7625897703550997`*^9}, {3.7625899295234637`*^9, 
+   3.762589930507874*^9}, 3.76259000261287*^9, {3.7625900337528715`*^9, 
+   3.762590045690065*^9}, {3.7625901132979794`*^9, 3.762590131951202*^9}, 
+   3.7625901625754976`*^9, {3.762590213367079*^9, 3.7625902505069904`*^9}, {
+   3.7625903335953183`*^9, 3.7625903546416883`*^9}, {3.762591051841524*^9, 
+   3.762591101012393*^9}, {3.7625911476954727`*^9, 3.7625911739292803`*^9}, {
+   3.7625912043192973`*^9, 3.7625912179908295`*^9}, 3.762591356170484*^9, {
+   3.762591410638008*^9, 3.7625914111849227`*^9}, {3.762591457793284*^9, 
+   3.76259147269917*^9}, {3.7625915112743917`*^9, 3.762591532070871*^9}, {
+   3.7625915752886753`*^9, 3.762591594507025*^9}, {3.7625916388185577`*^9, 
+   3.7625916703780003`*^9}, {3.762591785534727*^9, 3.7625917893158436`*^9}, {
+   3.7625918343461685`*^9, 3.762591853343906*^9}, {3.7625919225767884`*^9, 
+   3.7625919283110924`*^9}, {3.762591965719755*^9, 3.7625922004976344`*^9}, {
+   3.762592265806662*^9, 3.7625922837750764`*^9}, {3.762592423098195*^9, 
+   3.7625924599098396`*^9}, {3.762592599232169*^9, 3.7625927184640155`*^9}, {
+   3.7625927613811684`*^9, 3.7625927636779947`*^9}, {3.762592813926963*^9, 
+   3.7625928579103794`*^9}},
+ CellLabel->
+  "In[143]:=",ExpressionUUID->"cbba0478-96d9-4e2f-8ae8-4e424d237e01"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Enemy", " ", "avoidance", " ", "demonstration"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"n", "=", "50"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Number", " ", "of", " ", "points"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"mapSize", "=", "0.8"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dim", "=", "3"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hunterCoordinates", " ", "=", " ", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"0", ",", "3"}], "]"}]}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Centered", " ", "start", " ", "point"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"x", "=", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "mapSize"}], ",", "mapSize"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "3"}], "}"}]}], "]"}]}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Random", " ", "creature", " ", "points"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Vector", " ", "Distance"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"vecXH", ":=", 
+    RowBox[{
+     RowBox[{"-", "x"}], "+", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{
+       RowBox[{"hunterCoordinates", "[", 
+        RowBox[{"[", "]"}], "]"}], ",", 
+       RowBox[{"{", "n", "}"}]}], "]"}]}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Euclidean", " ", "Distance"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"magXH", ":=", 
+    RowBox[{"Outer", "[", 
+     RowBox[{
+     "EuclideanDistance", ",", "hunterCoordinates", ",", "x", ",", "1"}], 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Standardised", " ", "Move", " ", "direction"}], " ", "*)"}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}], " ", "cube"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"dirXH", ":=", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"Normalize", ",", "vecXH", ",", "1"}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Movement", " ", "vector", " ", "corresponding", " ", "to", " ", "a", " ",
+      "move", " ", "away", " ", "from", " ", "the", " ", "hunter", " ", "for",
+      " ", "each", " ", 
+     RowBox[{"creature", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"movXH", ":=", 
+    RowBox[{"dirXH", "/", 
+     RowBox[{"(", 
+      RowBox[{"25", "*", 
+       RowBox[{"magXH", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Framed", "[", "\[IndentingNewLine]", 
+    RowBox[{"Show", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{"Graphics3D", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.03", "]"}], ",", "Red", ",", 
+           RowBox[{"Point", "[", "hunterCoordinates", "]"}]}], "}"}], ",", 
+         RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", 
+         RowBox[{"SphericalRegion", "\[Rule]", "True"}], ",", 
+         RowBox[{"PlotRange", "\[Rule]", 
+          RowBox[{"1.25", "*", "mapSize"}]}], ",", 
+         RowBox[{"Axes", "\[Rule]", "True"}]}], "\[IndentingNewLine]", "]"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", "x"}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{"For", " ", "neatness", " ", 
+         RowBox[{"sake", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics3D", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.01", "]"}], ",", "Orange", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics3D", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.0125", "]"}], ",", "Brown", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics3D", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.015", "]"}], ",", "Brown", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"x", "=", 
+        RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+        "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+         "relative", " ", "to", " ", 
+         RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"Graphics3D", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"PointSize", "[", "0.02", "]"}], ",", "Black", ",", 
+           RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+         "]"}], "}"}]}]}], "\[IndentingNewLine]", "]"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.762593217830467*^9, 3.7625932479079447`*^9}, {
+  3.762593395557145*^9, 3.7625933959321404`*^9}, {3.7625936406729727`*^9, 
+  3.762593644501047*^9}},
+ CellLabel->
+  "In[154]:=",ExpressionUUID->"4e084b42-cf28-45c7-9231-3833074ddafb"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"leaderCoordinates", "=", 
+    RowBox[{"ConstantArray", "[", 
+     RowBox[{"0", ",", "dim"}], "]"}]}], ";"}], " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Centered", " ", "start", " ", "point"}], " ", 
+   "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"hunterCoordinates", "=", 
+    RowBox[{"ConstantArray", "[", 
+     RowBox[{"1", ",", "dim"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Framed", "[", "\[IndentingNewLine]", 
+  RowBox[{"Show", "[", 
+   RowBox[{
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", "0.03", "]"}], ",", "Red", ",", 
+         RowBox[{"Point", "[", "hunterCoordinates", "]"}]}], "}"}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", "Large"}], ",", 
+       RowBox[{"SphericalRegion", "\[Rule]", "True"}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", 
+        RowBox[{"1.25", "*", "mapSize"}]}], ",", 
+       RowBox[{"Axes", "\[Rule]", "True"}]}], "\[IndentingNewLine]", "]"}], 
+     "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"{", "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"PointSize", "[", "0.03", "]"}], ",", "Blue", ",", 
+        RowBox[{"Point", "[", "leaderCoordinates", "]"}]}], "}"}], 
+      "\[IndentingNewLine]", "]"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"x", "=", "x"}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{"For", " ", "neatness", " ", 
+       RowBox[{"sake", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", "0.01", "]"}], ",", "Orange", ",", 
+         RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+       "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"x", "=", 
+      RowBox[{"x", "+", "movXL"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x", "=", 
+      RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+       "relative", " ", "to", " ", 
+       RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", "0.0125", "]"}], ",", "Brown", ",", 
+         RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+       "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"x", "=", 
+      RowBox[{"x", "+", "movXL"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x", "=", 
+      RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+       "relative", " ", "to", " ", 
+       RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", "0.015", "]"}], ",", "Brown", ",", 
+         RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+       "]"}], "}"}]}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"x", "=", 
+      RowBox[{"x", "+", "movXL"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"x", "=", 
+      RowBox[{"x", "-", "movXH"}]}], ";", " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "Advance", " ", "creatures", " ", "by", " ", "one", " ", "move", " ", 
+       "relative", " ", "to", " ", 
+       RowBox[{"hunter", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", "0.02", "]"}], ",", "Black", ",", 
+         RowBox[{"Point", "[", "x", "]"}]}], "}"}], "\[IndentingNewLine]", 
+       "]"}], "}"}]}]}], "\[IndentingNewLine]", "]"}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"This", " ", "process", " ", "has", " ", "a", " ", 
+    RowBox[{"solution", "!"}], " ", "Run", " ", "it", " ", "again", " ", "to",
+     " ", "see", " ", "the", " ", "boids", " ", "gather", " ", "behind", " ", 
+    "the", " ", 
+    RowBox[{"leader", "."}]}], " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.7625933902135043`*^9, 3.762593391197817*^9}, {
+  3.7625934495715537`*^9, 3.7625934512121983`*^9}, {3.762593526253578*^9, 
+  3.7625935358314843`*^9}, {3.7625935860491543`*^9, 3.7625936235952187`*^9}, {
+  3.7625936592038374`*^9, 3.7625936659971747`*^9}, {3.7625937292770605`*^9, 
+  3.7625937379174986`*^9}, {3.7625937762604227`*^9, 3.7625937862757792`*^9}, {
+  3.762593833977928*^9, 3.7625938620512905`*^9}, {3.7625984718727922`*^9, 
+  3.7625984736517944`*^9}, {3.7625985955264664`*^9, 3.7625986075332704`*^9}, {
+  3.7634358760221224`*^9, 3.7634359031014957`*^9}},
+ CellLabel->
+  "In[206]:=",ExpressionUUID->"87486e2b-db36-45f1-9811-c7cd5aa3736f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"1", "st", " ", "model"}], " ", "-", " ", 
+    RowBox[{"Bird", " ", "swarming"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"--", 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", " ", "Setup"}]}]}]}]}], " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"variables", " ", "--"}], "--"}], "--"}], "--"}], "--"}]}], 
+   " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Clear", "[", "\"\<Global`*\>\"", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"n", "=", "250"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Number", " ", "of", " ", "entities"}], " ", "*)"}], "\n", 
+    RowBox[{"mapSize", "=", "1.5"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Total", " ", "map", " ", "size"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"dim", "=", "2"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"To", " ", "switch", " ", "between", " ", "2", 
+       RowBox[{"D", "/", "3"}], "D"}], ",", " ", 
+      RowBox[{
+      "change", " ", "Graphics3D", " ", "to", " ", "Graphics", " ", "in", " ",
+        "the", " ", "dynamic", " ", "loop", " ", 
+       RowBox[{"(", 
+        RowBox[{"At", " ", "the", " ", "bottom"}], ")"}]}], ",", " ", 
+      RowBox[{"and", " ", "this", " ", "value", " ", "between", " ", 
+       RowBox[{"2", "/", "3"}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"leaderCircleDepth", " ", "=", " ", "1.0"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Depth", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "leader"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"leaderCircleWidth", "=", "1.0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Width", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "leader"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"leaderCircleHeight", " ", "=", " ", "1.0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Height", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "leader"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"leaderSpeed", "=", "1"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Speed", " ", "of", " ", "leader"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"leaderCoordinates", " ", "=", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"1", ",", "dim"}], "]"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Starting", " ", "leader", " ", "coordinates"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"leaderCount", "=", "0.0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Leader", " ", "staring", " ", "angle"}], " ", "*)"}], " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Only", " ", "works", " ", "with", " ", "ellipse"}], " ", "*)"}],
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"hunterCircleDepth", " ", "=", " ", "1.8"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Depth", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "hunter"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"hunterCircleWidth", " ", "=", " ", "0.9"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Width", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "hunter"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"hunterCircleHeight", "=", "0.0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Height", " ", "of", " ", "ellipse", " ", "followed", " ", "by", " ", 
+      "hunter"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"hunterSpeed", " ", "=", " ", "1.5"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Speed", " ", "of", " ", "hunter"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"hunterCoordinates", " ", "=", " ", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "dim"}], "]"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Starting", " ", "hunter", " ", "coordinates"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"hunterCount", "=", 
+     RowBox[{"Pi", "/", "2"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Hunter", " ", "staring", " ", "angle"}], " ", "*)"}], " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Only", " ", "works", " ", "with", " ", "ellipse"}], " ", "*)"}],
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", " ", "Fixed"}]}]}]}]}], " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"calculations", " ", "--"}], "--"}], "--"}], "--"}], 
+       "--"}]}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"leaderSpeedAngular", "=", 
+     RowBox[{"leaderSpeed", "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"leaderCircleDepth", "+", "leaderCircleWidth"}], ")"}], 
+          "/", "4"}], ")"}], "*", "Pi"}], ")"}]}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Converts", " ", "leader", " ", "speed", " ", "to", " ", "angular", " ", 
+      "speed"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"hunterSpeedAngular", "=", 
+     RowBox[{"hunterSpeed", "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"hunterCircleDepth", "+", "hunterCircleWidth"}], ")"}], 
+          "/", "4"}], ")"}], "*", "Pi"}], ")"}]}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Converts", " ", "hunter", " ", "speed", " ", "to", " ", "angular", " ", 
+      "speed"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"x", "=", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "mapSize"}], ",", "mapSize"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"n", ",", "dim"}], "}"}]}], "]"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Establishes", " ", "initial", " ", "creature", " ", "coordinates"}], 
+     " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"p", ",", "q"}], "}"}], "=", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "n"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"2", ",", "n"}], "}"}]}], "]"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "p", " ", "and", " ", "q", " ", "are", " ", "random", " ", "entities", 
+      " ", "at", " ", "initialisation", " ", "representing", " ", "friends", 
+      " ", "and", " ", "enemies"}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"--", 
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", " ", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"Functions", " ", "--"}], "--"}], "--"}], "--"}], 
+           "--"}]}]}]}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"r", ":=", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "n"}], "}"}], "]"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "r", " ", "is", " ", "a", " ", "function", " ", "that", " ", "returns", 
+      " ", "a", " ", "random", " ", "entity"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\n", 
+    RowBox[{"f", ":=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"#", "/", 
+          RowBox[{"(", 
+           RowBox[{".01", "+", 
+            RowBox[{"Sqrt", "[", 
+             RowBox[{"Dot", "[", 
+              RowBox[{"#", ",", "#"}], "]"}], "]"}]}], ")"}]}], ")"}], "&"}], 
+       "/@", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{"Divide", " ", "each", " ", "vector", " ", 
+         RowBox[{"(", 
+          RowBox[{"from", " ", "next", " ", "line"}], ")"}], " ", "by", " ", 
+         RowBox[{"(", 
+          RowBox[{".01", " ", "+", " ", 
+           RowBox[{
+            RowBox[{"it", "'"}], "s", " ", "length"}]}], ")"}]}], " ", "*)"}],
+        "\[IndentingNewLine]", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"x", "[", 
+          RowBox[{"[", "#", "]"}], "]"}], "-", "x"}], ")"}]}], "&"}]}], ";", 
+    " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "An", " ", "array", " ", "of", " ", "vectors", " ", "from", " ", "every",
+       " ", "point", " ", "to", " ", "a", " ", "selected", " ", "point"}], 
+     " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+      "The", " ", "function", " ", "f", " ", "returns", " ", "an", " ", 
+       "array", " ", "of", " ", 
+       RowBox[{"vectors", ".", " ", "These"}], " ", "vectors", " ", "point", 
+       " ", "from", " ", "every", " ", "entity", " ", "towards", " ", "a", 
+       " ", "specified", " ", 
+       RowBox[{"entity", ".", " ", "The"}], " ", "magnitude", " ", "of", " ", 
+       "these", " ", "vectors", " ", "is", " ", "slightly", " ", "less", " ", 
+       "than", " ", "that", " ", "of", " ", "a", " ", "unit", " ", "vector"}],
+       ",", " ", 
+      RowBox[{
+      "and", " ", "tends", " ", "to", " ", "zero", " ", "as", " ", "the", " ",
+        "distance", " ", "between", " ", "entities", " ", "gets", " ", 
+       "smaller"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Vector", " ", "Distance"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"vecXL", ":=", 
+     RowBox[{
+      RowBox[{"-", "x"}], "+", 
+      RowBox[{"ConstantArray", "[", 
+       RowBox[{
+        RowBox[{"leaderCoordinates", "[", 
+         RowBox[{"[", "]"}], "]"}], ",", 
+        RowBox[{"{", "n", "}"}]}], "]"}]}]}]}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Calculates", " ", "vector", " ", "distance", " ", "between", " ", "each",
+      " ", "boid", " ", "and", " ", "leader"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"vecXH", ":=", 
+    RowBox[{
+     RowBox[{"-", "x"}], "+", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{
+       RowBox[{"hunterCoordinates", "[", 
+        RowBox[{"[", "]"}], "]"}], ",", 
+       RowBox[{"{", "n", "}"}]}], "]"}]}]}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Calculates", " ", "vector", " ", "distance", " ", "between", " ", "each",
+      " ", "boid", " ", "and", " ", "hunter"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Euclidean", " ", "Distance"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"magXL", ":=", "\[IndentingNewLine]", 
+    RowBox[{"0.9", "*", 
+     RowBox[{"Outer", "[", 
+      RowBox[{
+      "EuclideanDistance", ",", "leaderCoordinates", ",", "x", ",", "1"}], 
+      "]"}]}]}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Calculates", " ", "Euclidean", " ", "distance", " ", "between", " ", 
+     "each", " ", "boid", " ", "and", " ", "leader"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"magXH", ":=", 
+    RowBox[{"0.9", "*", 
+     RowBox[{"Outer", "[", 
+      RowBox[{
+      "EuclideanDistance", ",", "hunterCoordinates", ",", "x", ",", "1"}], 
+      "]"}]}]}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Calculates", " ", "Euclidean", " ", "distance", " ", "between", " ", 
+     "each", " ", "boid", " ", "and", " ", "hunter"}], "    ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Standardised", " ", "Move", " ", "direction"}], " ", "*)"}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1"}], "}"}], " ", "cube"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"dirXL", ":=", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"Normalize", ",", "vecXL", ",", "1"}], "]"}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"dirXH", ":=", 
+    RowBox[{"Outer", "[", 
+     RowBox[{"Normalize", ",", "vecXH", ",", "1"}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Movement", " ", "vector", " ", "corresponding", " ", "to", " ", "a", " ",
+      "move", " ", "away", " ", "from", " ", "the", " ", "hunter", " ", "for",
+      " ", "each", " ", 
+     RowBox[{"creature", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"movXL", ":=", 
+    RowBox[{"dirXL", "*", 
+     RowBox[{
+      RowBox[{"magXL", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "/", "100"}]}]}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"movXH", ":=", 
+    RowBox[{"dirXH", "/", 
+     RowBox[{"(", 
+      RowBox[{"100", "*", 
+       RowBox[{"magXH", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], ")"}]}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"s", ":=", 
+     RowBox[{"With", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"r1", "=", "r"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"p", "[", 
+          RowBox[{"[", "r1", "]"}], "]"}], "=", "r"}], ";", 
+        RowBox[{
+         RowBox[{"q", "[", 
+          RowBox[{"[", "r1", "]"}], "]"}], "=", "r"}]}]}], "]"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"for", " ", "a", " ", "random", " ", "entity", " ", 
+       RowBox[{"(", 
+        RowBox[{
+        "the", " ", "same", " ", "random", " ", "element", " ", "in", " ", 
+         "the", " ", "p", " ", "and", " ", "q", " ", "lists"}], ")"}]}], ",", 
+      " ", 
+      RowBox[{
+      "s", " ", "is", " ", "a", " ", "function", " ", "to", " ", "pick", " ", 
+       "a", " ", "new", " ", "\"\<friend\>\"", " ", "p", " ", "and", " ", 
+       "\"\<enemy\>\"", " ", "q"}]}], " ", "*)"}], "\n", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"--", 
+       RowBox[{"--", 
+        RowBox[{"--", 
+         RowBox[{"--", 
+          RowBox[{"--", " ", "Checking"}]}]}]}]}], " ", "for", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"errors", " ", "--"}], "--"}], "--"}], "--"}], "--"}]}], 
+     " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Max", "[", 
+        RowBox[{"leaderCircleHeight", ",", "leaderCircleWidth"}], "]"}], ">", 
+       "mapSize"}], ",", 
+      RowBox[{
+      "Print", "[", "\"\<Leader is circling outside of map!\>\"", "]"}]}], 
+     "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Max", "[", 
+        RowBox[{"hunterCircleHeight", ",", "hunterCircleWidth"}], "]"}], ">", 
+       "mapSize"}], ",", 
+      RowBox[{
+      "Print", "[", "\"\<Hunter is circling outside of map!\>\"", "]"}]}], 
+     "]"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.762587588544449*^9, 3.762587588591284*^9}, {
+   3.7625877440852594`*^9, 3.762587744163332*^9}, 3.762588859498529*^9, {
+   3.762592878566142*^9, 3.762592971388035*^9}, {3.762593022277573*^9, 
+   3.7625930223869457`*^9}, {3.7634360514665885`*^9, 
+   3.763436072895299*^9}},ExpressionUUID->"b4715d86-7946-4240-a222-\
+31f6e6af528b"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "This", " ", "is", " ", "the", " ", "Dynamically", " ", "run", " ", "code",
+     " ", "section"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"RUN", " ", "THIS"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Framed", "[", "\[IndentingNewLine]", 
+    RowBox[{"Graphics", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"PointSize", "[", "0.015", "]"}], ",", "Blue", ",", 
+        RowBox[{"Dynamic", "[", "  ", 
+         RowBox[{"(*", " ", 
+          RowBox[{"Updates", " ", "leader", " ", "position"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"leaderCount", ">", 
+             RowBox[{"2", "*", "Pi"}]}], ",", 
+            RowBox[{"leaderCount", "=", "0"}], ",", 
+            RowBox[{"leaderCount", "=", 
+             RowBox[{"leaderCount", "+", 
+              RowBox[{"leaderSpeedAngular", "*", "0.01"}]}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"leaderCoordinates", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "=", 
+           RowBox[{"leaderCircleWidth", "*", 
+            RowBox[{"Cos", "[", "leaderCount", "]"}]}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"leaderCoordinates", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "=", 
+           RowBox[{"leaderCircleDepth", "*", 
+            RowBox[{"Sin", "[", "leaderCount", "]"}]}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"dim", "==", "3"}], ",", 
+            RowBox[{
+             RowBox[{"leaderCoordinates", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "=", 
+             RowBox[{"leaderCircleHeight", "*", 
+              RowBox[{"Cos", "[", "leaderCount", "]"}]}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Point", "[", "leaderCoordinates", "]"}]}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PointSize", "[", "0.015", "]"}], ",", "Red", ",", 
+        RowBox[{"Dynamic", "[", "  ", 
+         RowBox[{"(*", " ", 
+          RowBox[{"Updates", " ", "hunter", " ", "position"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"hunterCount", ">", 
+             RowBox[{"2", "*", "Pi"}]}], ",", 
+            RowBox[{"hunterCount", "=", " ", "0"}], ",", 
+            RowBox[{"hunterCount", "=", 
+             RowBox[{"hunterCount", "+", 
+              RowBox[{"hunterSpeedAngular", "*", "0.01"}]}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"hunterCoordinates", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "=", 
+           RowBox[{"hunterCircleWidth", "*", 
+            RowBox[{"Sin", "[", "hunterCount", "]"}]}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"hunterCoordinates", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "=", 
+           RowBox[{"hunterCircleDepth", "*", 
+            RowBox[{"Cos", "[", "hunterCount", "]"}]}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"dim", "==", "3"}], ",", 
+            RowBox[{
+             RowBox[{"hunterCoordinates", "[", 
+              RowBox[{"[", "3", "]"}], "]"}], "=", 
+             RowBox[{"hunterCircleHeight", "*", 
+              RowBox[{"Cos", "[", "hunterCount", "]"}]}]}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Point", "[", "hunterCoordinates", "]"}]}], 
+         "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PointSize", "[", "0.005", "]"}], ",", "Black", ",", 
+        RowBox[{"Dynamic", "[", " ", 
+         RowBox[{"(*", " ", 
+          RowBox[{"Updates", " ", "following", " ", "animals"}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"r", "<", 
+             RowBox[{"(", 
+              RowBox[{"n", "/", "20"}], ")"}]}], ",", "s"}], "]"}], ";", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+             "If", " ", "a", " ", "randomly", " ", "chosen", " ", "entity", 
+              " ", "has", " ", "ID"}], " ", "<", " ", 
+             RowBox[{"100", " ", 
+              RowBox[{"(", 
+               RowBox[{"10", "%", " ", "chance"}], ")"}]}]}], ",", " ", 
+            RowBox[{"run", " ", "s"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"x", "=", 
+           RowBox[{"x", "+", 
+            RowBox[{"0.038", "*", 
+             RowBox[{"f", "[", "p", "]"}]}]}]}], ";", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+           "Move", " ", "closer", " ", "to", " ", "\"\<friend\>\"", " ", 
+            "p"}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"x", "=", 
+           RowBox[{"x", "+", 
+            RowBox[{"1.0", "*", "movXL"}]}]}], ";", " ", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+           "Move", " ", "closer", " ", "to", " ", "\"\<leader\>\"", " ", 
+            "fl"}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"x", "=", 
+           RowBox[{"x", "-", 
+            RowBox[{"0.04", 
+             RowBox[{"f", "[", "q", "]"}]}]}]}], ";", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+           "Move", " ", "away", " ", "from", " ", "\"\<enemy\>\"", " ", "q"}],
+            " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"x", "=", 
+           RowBox[{"x", "-", 
+            RowBox[{"0.5", "movXH"}]}]}], ";", 
+          RowBox[{"(*", " ", 
+           RowBox[{"Move", " ", "away", " ", "from", " ", "hunter"}], " ", 
+           "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"Point", "[", "x", "]"}]}], "\[IndentingNewLine]", "]"}]}], 
+       "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotRange", "\[Rule]", 
+       RowBox[{"2.0", "*", "mapSize"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"dim", "\[Equal]", "3"}], ",", 
+         RowBox[{"SphericalRegion", "\[Rule]", "True"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"ImageSize", "\[Rule]", "Large"}]}]}], "\[IndentingNewLine]", 
+     "]"}], "]"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "This", " ", "model", " ", "is", " ", "most", " ", "similar", " ", "to", 
+     " ", "bird", " ", "swarming"}], " ", "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.763435974487252*^9, 3.7634360250841703`*^9}},
+ CellLabel->
+  "In[299]:=",ExpressionUUID->"072bd0fb-1987-4b8e-a634-a20974a7ffad"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"Final", " ", "swarming", " ", "model"}], ",", " ", 
+    RowBox[{"based", " ", "on", " ", "fish", " ", "behaviour"}]}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Initial", " ", "declarations"}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"threeDimensional", " ", "=", " ", "False"}], ";"}], 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "Change", " ", "to", " ", "True", " ", "to", " ", "switch", " ", "to", 
+     " ", "3", "D", " ", "map"}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"swarm", "=", "True"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Turn", " ", "swarming", " ", "on", " ", "or", " ", "off"}], " ",
+      "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"numberBoids", " ", "=", " ", "30"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"speedBoid", " ", "=", " ", "0.05"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"boidVision", "=", "2.5"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Sight", " ", "range", " ", "of", " ", "boids"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hunterVision", "=", "1.5"}], ";"}], " ", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Sight", " ", "range", " ", "of", " ", "predator"}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hunterHunt", " ", "=", " ", "1.0"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Hunter", " ", "Attack", " ", "range"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"speedHunterSlow", " ", "=", " ", "0.06"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Speed", " ", "of", " ", "hunter", " ", "in", " ", "sight", " ", "of", 
+      " ", "target", " ", "boid"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"speedHunterFast", " ", "=", " ", "0.15"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Speed", " ", "of", " ", "hunter", " ", "out", " ", "of", " ", "sight", 
+      " ", "of", " ", "target", " ", "boid"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"groupMembers", " ", "=", " ", "5"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Number", " ", "of", " ", "boids", " ", "to", " ", "be", " ", 
+      "considered", " ", "by", " ", "each", " ", "boid"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Calculated", " ", "initial", " ", "conditions"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"searchCount", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ori", "=", "0.1"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{"threeDimensional", ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"boidHunter", " ", "=", " ", 
+       RowBox[{"ConstantArray", "[", 
+        RowBox[{
+         RowBox[{"-", "5"}], ",", "3"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"boidList", " ", "=", " ", 
+       RowBox[{"RandomReal", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"numberBoids", ",", "3"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"origin", " ", "=", " ", 
+       RowBox[{"ConstantArray", "[", 
+        RowBox[{"0", ",", "3"}], "]"}]}], ";"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"boidHunter", " ", "=", " ", 
+       RowBox[{"ConstantArray", "[", 
+        RowBox[{
+         RowBox[{"-", "5"}], ",", "2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"boidList", " ", "=", " ", 
+       RowBox[{"RandomReal", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"numberBoids", ",", "2"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"origin", " ", "=", " ", 
+       RowBox[{"ConstantArray", "[", 
+        RowBox[{"0", ",", "2"}], "]"}]}], ";"}]}], "\[IndentingNewLine]", 
+    "]"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"swarm", "\[Equal]", "True"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"weight", "=", 
+       RowBox[{"N", "[", 
+        RowBox[{
+         RowBox[{"Normalize", "[", 
+          RowBox[{"Exp", "[", 
+           RowBox[{"PadLeft", "[", 
+            RowBox[{
+             RowBox[{"Range", "[", "groupMembers", "]"}], ",", 
+             "groupMembers"}], "]"}], "]"}], "]"}], "/", 
+         RowBox[{"Total", "[", 
+          RowBox[{"Normalize", "[", 
+           RowBox[{"Exp", "[", 
+            RowBox[{"PadLeft", "[", 
+             RowBox[{
+              RowBox[{"Range", "[", "groupMembers", "]"}], ",", 
+              "groupMembers"}], "]"}], "]"}], "]"}], "]"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"adjWeight", ":=", 
+       RowBox[{"N", "[", 
+        RowBox[{
+         RowBox[{"Normalize", "[", 
+          RowBox[{"Exp", "[", 
+           RowBox[{"PadLeft", "[", 
+            RowBox[{
+             RowBox[{"Range", "[", 
+              RowBox[{"Length", "[", "boidList", "]"}], "]"}], ",", 
+             RowBox[{"Length", "[", "boidList", "]"}]}], "]"}], "]"}], "]"}], 
+         "/", 
+         RowBox[{"Total", "[", 
+          RowBox[{"Normalize", "[", 
+           RowBox[{"Exp", "[", 
+            RowBox[{"PadLeft", "[", 
+             RowBox[{
+              RowBox[{"Range", "[", 
+               RowBox[{"Length", "[", "boidList", "]"}], "]"}], ",", 
+              RowBox[{"Length", "[", "boidList", "]"}]}], "]"}], "]"}], "]"}],
+           "]"}]}], "]"}]}]}], ",", 
+     RowBox[{"(*", " ", 
+      RowBox[{"Constant", " ", "weighted", " ", "array"}], " ", "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"weight", "=", 
+       RowBox[{"Reverse", "[", 
+        RowBox[{"N", "[", 
+         RowBox[{
+          RowBox[{"Normalize", "[", 
+           RowBox[{"Exp", "[", 
+            RowBox[{"PadLeft", "[", 
+             RowBox[{
+              RowBox[{"Range", "[", "groupMembers", "]"}], ",", 
+              "groupMembers"}], "]"}], "]"}], "]"}], "/", 
+          RowBox[{"Total", "[", 
+           RowBox[{"Normalize", "[", 
+            RowBox[{"Exp", "[", 
+             RowBox[{"PadLeft", "[", 
+              RowBox[{
+               RowBox[{"Range", "[", "groupMembers", "]"}], ",", 
+               "groupMembers"}], "]"}], "]"}], "]"}], "]"}]}], "]"}], "]"}]}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"ori", "=", "0.3"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"adjWeight", ":=", 
+       RowBox[{"Reverse", "[", 
+        RowBox[{"N", "[", 
+         RowBox[{
+          RowBox[{"Normalize", "[", 
+           RowBox[{"Exp", "[", 
+            RowBox[{"PadLeft", "[", 
+             RowBox[{
+              RowBox[{"Range", "[", 
+               RowBox[{"Length", "[", "boidList", "]"}], "]"}], ",", 
+              RowBox[{"Length", "[", "boidList", "]"}]}], "]"}], "]"}], "]"}],
+           "/", 
+          RowBox[{"Total", "[", 
+           RowBox[{"Normalize", "[", 
+            RowBox[{"Exp", "[", 
+             RowBox[{"PadLeft", "[", 
+              RowBox[{
+               RowBox[{"Range", "[", 
+                RowBox[{"Length", "[", "boidList", "]"}], "]"}], ",", 
+               RowBox[{"Length", "[", "boidList", "]"}]}], "]"}], "]"}], 
+            "]"}], "]"}]}], "]"}], "]"}]}]}]}], "\[IndentingNewLine]", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"The", " ", "above", " ", "line", " ", "inside", " ", "of", " ", 
+     RowBox[{"N", "[", "]"}], " ", "calculate", " ", "at", " ", "what", " ", 
+     "range", " ", "should", " ", "the", " ", "boids", " ", "react", " ", 
+     "to", " ", "the", " ", "hunter"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"Right", " ", "now"}], ",", " ", 
+     RowBox[{
+     "it", " ", "is", " ", "an", " ", "exponential", " ", "function", " ", 
+      "to", " ", "simulate", " ", "the", " ", "\"\<fountain movement\>\"", 
+      " ", "as", " ", "best", " ", "as", " ", "possible"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "The", " ", "function", " ", "PadLeft", " ", "is", " ", "there", " ", 
+     "to", " ", "prevent", " ", "them", " ", "from", " ", "reacting", " ", 
+     "too", " ", "early"}], " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"lastList", " ", "=", " ", "boidList"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Remembers", " ", "previous", " ", "coordinates", " ", "of", " ", 
+      "boids"}], " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"boidHunterLast", " ", "=", " ", "boidHunter"}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Remembers", " ", "previous", " ", "coordinates", " ", "of", " ", 
+      "hunter"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"numBoidsList", "=", 
+     RowBox[{"{", 
+      RowBox[{"Length", "[", "boidList", "]"}], "}"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Keeps", " ", "a", " ", "record", " ", "of", " ", "the", " ", "number", 
+      " ", "of", " ", "boids", " ", "alive", " ", "in", " ", "each", " ", 
+      "frame"}], " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"threeDimensional", ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Random", " ", "vector", " ", "function"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"randomVec", " ", ":=", " ", 
+        RowBox[{"RandomReal", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", "3"}], "]"}]}], ";"}],
+       ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"randomVec", " ", ":=", " ", 
+        RowBox[{"RandomReal", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", "2"}], "]"}]}], 
+       ";"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "Functions", " ", "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"huntList", " ", ":=", " ", 
+     RowBox[{"Append", "[", 
+      RowBox[{"boidList", ",", "boidHunter"}], "]"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Declares", " ", "a", " ", "coordinate", " ", "list", " ", "with", " ", 
+      "boids", " ", "and", " ", "the", " ", "hunter"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"targetBoid", ":=", 
+     RowBox[{
+      RowBox[{"Nearest", "[", 
+       RowBox[{
+        RowBox[{"boidList", "\[Rule]", "Automatic"}], ",", "boidHunter"}], 
+       "]"}], "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "Function", " ", "selects", " ", "boid", " ", "to", " ", "hunt"}], " ", 
+     "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"hunterVectorSlow", ":=", " ", 
+     RowBox[{"Normalize", "[", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Normalised", " ", "movement", " ", "vector", " ", "for", " ", "the", 
+        " ", "hunter"}], " ", "*)"}], "\[IndentingNewLine]", "\t\t\t", 
+      RowBox[{
+       RowBox[{"+", " ", "hunterTarget"}], "\[IndentingNewLine]", "\t\t\t", 
+       "-", "boidHunter", "\[IndentingNewLine]", "\t\t\t", "+", " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"boidHunter", " ", "-", " ", "boidHunterLast"}], ")"}], 
+          "/", "speedHunterSlow"}], ")"}], "*", "4"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hunterVectorFast", ":=", " ", 
+     RowBox[{"Normalize", "[", "\[IndentingNewLine]", "\t\t\t", 
+      RowBox[{
+       RowBox[{"+", " ", "hunterTarget"}], "\[IndentingNewLine]", "\t\t\t", 
+       "-", "boidHunter", "\[IndentingNewLine]", "\t\t\t", "+", " ", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"boidHunter", " ", "-", " ", "boidHunterLast"}], ")"}], 
+          "/", "speedHunterFast"}], ")"}], "*", "4"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"boidVector", ":=", 
+     RowBox[{"Normalize", "[", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"EuclideanDistance", "[", 
+          RowBox[{"boidHunter", ",", 
+           RowBox[{"boidList", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "<", "boidVision"}], ",",
+         "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"(*", " ", 
+           RowBox[{"General", " ", "boid", " ", "moevement"}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"vecToMean", "*", "2"}], 
+           RowBox[{"(*", 
+            RowBox[{"Vector", " ", "towards", " ", "nearby", " ", "boids"}], 
+            "*)"}], "\[IndentingNewLine]", "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"-", 
+              RowBox[{"boidList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "\[IndentingNewLine]", ")"}],
+             "*", "ori"}], " ", 
+           RowBox[{"(*", 
+            RowBox[{"vector", " ", "towards", " ", "center"}], "*)"}], 
+           "\[IndentingNewLine]", "+", 
+           RowBox[{"randomVec", "*", "0.2"}]}], ")"}], " ", 
+         RowBox[{"(*", 
+          RowBox[{"Random", " ", "motion"}], "*)"}], "\[IndentingNewLine]", 
+         "+", 
+         RowBox[{
+          RowBox[{"Normalize", "[", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"boidList", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "-", "boidHunter"}], ")"}], 
+           "]"}], "*", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"1", "/", 
+             RowBox[{"(", 
+              RowBox[{"EuclideanDistance", "[", 
+               RowBox[{
+                RowBox[{"boidList", "[", 
+                 RowBox[{"[", "i", "]"}], "]"}], ",", "boidHunter"}], "]"}], 
+              ")"}]}], "+", "0.1"}], ")"}]}], " ", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Vector", " ", "away", " ", "from", " ", "hunter"}], ",", 
+           " ", 
+           RowBox[{
+           "scaled", " ", "up", " ", "as", " ", "hunter", " ", "is", " ", 
+            "closer"}]}], "*)"}], "\[IndentingNewLine]", "+", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"boidList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], " ", "-", " ", 
+              RowBox[{"lastList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], ")"}], "/", "speedBoid"}], 
+           ")"}], "*", "3"}]}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Boid", " ", "Momentum"}], "*)"}], "\[IndentingNewLine]", 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"(*", " ", 
+           RowBox[{"General", " ", "boid", " ", "moevement"}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"vecToMean", "*", "2"}], 
+           RowBox[{"(*", 
+            RowBox[{"Vector", " ", "towards", " ", "nearby", " ", "boids"}], 
+            "*)"}], "\[IndentingNewLine]", "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"-", 
+              RowBox[{"boidList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "\[IndentingNewLine]", ")"}],
+             "*", "ori"}], " ", 
+           RowBox[{"(*", 
+            RowBox[{"vector", " ", "towards", " ", "center"}], "*)"}], 
+           "\[IndentingNewLine]", "+", 
+           RowBox[{"randomVec", "*", "0.2"}]}], ")"}], " ", 
+         RowBox[{"(*", 
+          RowBox[{"Random", " ", "motion"}], "*)"}], "\[IndentingNewLine]", 
+         "+", " ", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"boidList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], " ", "-", " ", 
+              RowBox[{"lastList", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], ")"}], "/", "speedBoid"}], 
+           ")"}], "*", "3"}]}]}], " ", 
+       RowBox[{"(*", 
+        RowBox[{"Boid", " ", "Momentum"}], "*)"}], "\[IndentingNewLine]", 
+       "]"}], "]"}]}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Add", " ", "more", " ", "vectors", " ", "here"}], " ", "*)"}], 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"Manage", " ", "graphics", " ", "plot"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+     "This", " ", "code", " ", "just", " ", "draws", " ", "the", " ", 
+      "positions", " ", "of", " ", "the", " ", "hunter", " ", "and", " ", 
+      "boids", " ", "to", " ", "a", " ", "graph"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"threeDimensional", ",", "\[IndentingNewLine]", 
+      RowBox[{"Graphics3D", "[", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{"Dynamic", "[", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"MapThread", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"{", " ", 
+                RowBox[{"(*", " ", 
+                 RowBox[{
+                 "Change", " ", "the", " ", "colour", " ", "of", " ", "the", 
+                  " ", "hunter", " ", "based", " ", "on", " ", "type", " ", 
+                  "of", " ", "motion", " ", 
+                  RowBox[{"(", 
+                   RowBox[{"searching", ",", "stalking", ",", "hunting"}], 
+                   ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+                RowBox[{"#1", ",", 
+                 RowBox[{"MapIndexed", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Text", "[", 
+                    RowBox[{
+                    RowBox[{"First", "@", "#2"}], ",", "#1"}], "]"}], "&"}], 
+                   ",", "#2"}], "]"}]}], "}"}], "&"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Black", ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "origin"}], "]"}], ">", "4"}], 
+                    ",", "Green", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "hunterTarget"}], "]"}], ">", 
+                    "hunterVision"}], ",", "Blue", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "hunterTarget"}], "]"}], ">", 
+                    "hunterHunt"}], ",", "Orange", ",", "Red"}], "]"}]}], 
+                    "]"}]}], "]"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"boidList", ",", 
+                  RowBox[{"{", "boidHunter", "}"}]}], "}"}]}], "}"}]}], "]"}],
+             ",", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"Opacity", "[", "0.2", "]"}], ",", 
+              RowBox[{"Sphere", "[", 
+               RowBox[{"boidHunter", ",", "hunterVision"}], "]"}]}], "}"}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"Opacity", "[", "0.5", "]"}], ",", "Red", ",", 
+              RowBox[{"Sphere", "[", 
+               RowBox[{"boidHunter", ",", "hunterHunt"}], "]"}]}], "}"}]}], 
+           "\[IndentingNewLine]", "}"}], "]"}], "\[IndentingNewLine]", "}"}], 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{"Axes", "\[Rule]", " ", "True"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", "\[Rule]", "6"}], ",", 
+        RowBox[{"SphericalRegion", "\[Rule]", "True"}]}], 
+       "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Graphics", "[", 
+       RowBox[{
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{"Dynamic", "[", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"MapThread", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"{", " ", 
+                RowBox[{"(*", " ", 
+                 RowBox[{
+                 "Change", " ", "the", " ", "colour", " ", "of", " ", "the", 
+                  " ", "hunter", " ", "based", " ", "on", " ", "type", " ", 
+                  "of", " ", "motion", " ", 
+                  RowBox[{"(", 
+                   RowBox[{"searching", ",", "stalking", ",", "hunting"}], 
+                   ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+                RowBox[{"#1", ",", 
+                 RowBox[{"MapIndexed", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Text", "[", 
+                    RowBox[{
+                    RowBox[{"First", "@", "#2"}], ",", "#1"}], "]"}], "&"}], 
+                   ",", "#2"}], "]"}]}], "}"}], "&"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Black", ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "origin"}], "]"}], ">", "4"}], 
+                    ",", "Green", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "hunterTarget"}], "]"}], ">", 
+                    "hunterVision"}], ",", "Blue", ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"EuclideanDistance", "[", 
+                    RowBox[{"boidHunter", ",", "hunterTarget"}], "]"}], ">", 
+                    "hunterHunt"}], ",", "Orange", ",", "Red"}], "]"}]}], 
+                    "]"}]}], "]"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"boidList", ",", 
+                  RowBox[{"{", "boidHunter", "}"}]}], "}"}]}], "}"}]}], "]"}],
+             ",", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"Dashed", ",", 
+              RowBox[{"Circle", "[", 
+               RowBox[{"boidHunter", ",", "hunterVision"}], "]"}]}], "}"}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"Dashed", ",", "Red", ",", 
+              RowBox[{"Circle", "[", 
+               RowBox[{"boidHunter", ",", "hunterHunt"}], "]"}]}], "}"}]}], 
+           "\[IndentingNewLine]", "}"}], "]"}], "\[IndentingNewLine]", "}"}], 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{"Axes", "\[Rule]", " ", "True"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"PlotRange", "\[Rule]", "6"}]}], "\[IndentingNewLine]", 
+       "]"}]}], "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"Stepped", " ", "Calculations"}], " ", "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"j", "=", "1"}], ",", 
+     RowBox[{"j", "<", "20000"}], ",", 
+     RowBox[{"j", "++"}], ",", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "boidList", "]"}], "\[GreaterEqual]", 
+        "groupMembers"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"numBoidsList", " ", "=", " ", 
+         RowBox[{"Append", "[", 
+          RowBox[{"numBoidsList", ",", 
+           RowBox[{"Length", "[", "boidList", "]"}]}], "]"}]}], ";", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Keep", " ", "record", " ", "of", " ", "boids", " ", "alive"}], " ", 
+         "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{"Boid", " ", "logic"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"i", "=", "1"}], ",", " ", 
+          RowBox[{"i", " ", "<=", 
+           RowBox[{"Length", "[", "boidList", "]"}]}], ",", 
+          RowBox[{"i", "++"}], ",", 
+          RowBox[{"(*", " ", 
+           RowBox[{"For", " ", "Each", " ", "Boid"}], " ", "*)"}], 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "Creates", " ", "a", " ", "mean", " ", "point", " ", "for", " ", 
+             "centering", " ", "the", " ", "boid", " ", "within", " ", "the", 
+             " ", "cluster"}], ",", " ", 
+            RowBox[{
+            "the", " ", "boid", " ", "moves", " ", "towards", " ", "the", " ",
+              "average", " ", "point", " ", "of", " ", "the", " ", "local", 
+             " ", "group"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", "boidList", "]"}], "\[GreaterEqual]", 
+              "groupMembers"}], ",", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"meanPoint", "=", 
+               RowBox[{"Mean", "[", 
+                RowBox[{"WeightedData", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"NearestTo", "[", 
+                    RowBox[{
+                    RowBox[{"boidList", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", "groupMembers"}], 
+                    "]"}], "[", "boidList", "]"}], ",", "weight"}], "]"}], 
+                "]"}]}], ";"}], ",", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{"(*", " ", 
+              RowBox[{
+               RowBox[{"Right", " ", "now"}], ",", " ", 
+               RowBox[{
+               "it", " ", "is", " ", "an", " ", "exponential", " ", 
+                "function", " ", "to", " ", "simulate", " ", "the", " ", 
+                "\"\<fountain movement\>\"", " ", "as", " ", "best", " ", 
+                "as", " ", "possible"}], ",", " ", 
+               RowBox[{
+               "it", " ", "is", " ", "a", " ", "constant", " ", "vector", " ",
+                 "so", " ", "is", " ", "calculated", " ", "at", " ", "the", 
+                " ", "top", " ", "as", " ", 
+                RowBox[{"\"\<weight\>\"", "."}]}]}], " ", "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"meanPoint", "=", 
+               RowBox[{"Mean", "[", 
+                RowBox[{"WeightedData", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"NearestTo", "[", 
+                    RowBox[{
+                    RowBox[{"boidList", "[", 
+                    RowBox[{"[", "i", "]"}], "]"}], ",", 
+                    RowBox[{"Length", "[", "boidList", "]"}]}], "]"}], "[", 
+                   "boidList", "]"}], ",", "adjWeight"}], "]"}], "]"}]}], 
+              ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+           "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"vecToMean", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"Normalize", "[", 
+              RowBox[{"meanPoint", " ", "-", " ", 
+               RowBox[{"boidList", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "*", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"EuclideanDistance", "[", 
+                RowBox[{"meanPoint", ",", " ", 
+                 RowBox[{"boidList", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "-", "0.7"}], 
+              ")"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+           RowBox[{"lastList", " ", "=", " ", "boidList"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"boidList", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], " ", "+=", " ", 
+            RowBox[{"boidVector", " ", "*", "speedBoid"}]}], " ", ";"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "This", " ", "is", " ", "for", " ", "hunting", " ", "the", " ", 
+          "birds", " ", "directly"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"boidHunterTemp", " ", "=", " ", "boidHunter"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"hunterTarget", " ", "=", " ", 
+         RowBox[{
+          RowBox[{"boidList", "[", 
+           RowBox[{"[", "targetBoid", "]"}], "]"}], "+", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"boidList", "[", 
+              RowBox[{"[", "targetBoid", "]"}], "]"}], "-", 
+             RowBox[{"lastList", "[", 
+              RowBox[{"[", "targetBoid", "]"}], "]"}]}], ")"}], "*", 
+           "3"}]}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"EuclideanDistance", "[", 
+            RowBox[{"boidHunter", ",", "hunterTarget"}], "]"}], ">", 
+           "hunterVision"}], ",", " ", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{
+            "If", " ", "hunter", " ", "is", " ", "in", " ", "visible", " ", 
+             "range", " ", "of", " ", "bird"}], ",", " ", 
+            RowBox[{"begin", " ", "hunting"}]}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"EuclideanDistance", "[", 
+              RowBox[{"boidHunter", ",", "origin"}], "]"}], ">", "4"}], ",", 
+            " ", 
+            RowBox[{"(*", " ", 
+             RowBox[{
+              RowBox[{
+              "If", " ", "hunter", " ", "has", " ", "moved", " ", "too", " ", 
+               "far", " ", "away", " ", "from", " ", "origin", " ", "while", 
+               " ", "randomly", " ", "searching"}], ",", " ", 
+              RowBox[{"move", " ", "towards", " ", "origin"}]}], " ", "*)"}], 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"hunterVector", "=", 
+              RowBox[{"Normalize", "[", 
+               RowBox[{"origin", "-", "boidHunter"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"boidHunterTemp", "+=", 
+              RowBox[{"hunterVector", "*", "speedHunterFast"}]}], ";"}], ",", 
+            " ", 
+            RowBox[{"(*", " ", 
+             RowBox[{"Move", " ", "towards", " ", "origin"}], " ", "*)"}], 
+            "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"searchCount", ">", "10"}], ",", " ", 
+              RowBox[{"(*", " ", 
+               RowBox[{
+               "This", " ", "creates", " ", "random", " ", "short", " ", 
+                "straight", " ", "lines", " ", "of", " ", "search", " ", 
+                "pattern", " ", "for", " ", "the", " ", "hunter"}], " ", 
+               "*)"}], "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"searchCount", "=", "0"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"hunterVector", "=", 
+                RowBox[{"Normalize", "[", "randomVec", "]"}]}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{"boidHunterTemp", "+=", 
+                RowBox[{"hunterVector", "*", "speedHunterFast"}]}], ";"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"searchCount", "+=", "1"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"boidHunterTemp", "+=", 
+                RowBox[{"hunterVector", "*", "speedHunterFast"}]}], ";"}]}], 
+             "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", "]"}], 
+          ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"searchCount", "=", "0"}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"EuclideanDistance", "[", 
+               RowBox[{"boidHunter", ",", 
+                RowBox[{"boidList", "[", 
+                 RowBox[{"[", "targetBoid", "]"}], "]"}]}], "]"}], ">", 
+              "hunterHunt"}], ",", "\[IndentingNewLine]", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"boidHunterTemp", " ", "+=", 
+               RowBox[{"hunterVectorSlow", "*", "speedHunterSlow"}]}], ";"}], 
+             ",", " ", 
+             RowBox[{"(*", " ", 
+              RowBox[{"Stalk", " ", "prey"}], " ", "*)"}], 
+             "\[IndentingNewLine]", "\[IndentingNewLine]", 
+             RowBox[{"boidHunterTemp", "+=", 
+              RowBox[{"hunterVectorFast", "*", "speedHunterFast"}]}]}], " ", 
+            RowBox[{"(*", " ", 
+             RowBox[{"Hunt", " ", "prey"}], " ", "*)"}], 
+            "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+         "]"}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"huntListCheck", " ", "=", " ", "huntList"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"huntListCheck", "[", 
+          RowBox[{"[", 
+           RowBox[{"Length", "[", "huntListCheck", "]"}], "]"}], "]"}], " ", 
+         "=", "boidHunterTemp"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"boidHunterLast", " ", "=", " ", "boidHunter"}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "huntListCheck", "]"}], " ", ">", " ", 
+           "2"}], ",", " ", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"boidHunter", " ", "=", " ", "boidHunterTemp"}], ";"}]}], 
+         " ", 
+         RowBox[{"(*", " ", 
+          RowBox[{"Update", " ", "hunter", " ", "position"}], " ", "*)"}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "This", " ", "is", " ", "the", " ", "eating", " ", "mechanism"}], 
+         "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"RankedMin", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"DistanceMatrix", "[", "huntList", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{"Length", "[", "huntList", "]"}], "]"}], "]"}], ",", 
+             "2"}], "]"}], " ", "<=", "0.2"}], ",", " ", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+           "Eat", " ", "boid", " ", "within", " ", "range", " ", "of", " ", 
+            "predator"}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"boidList", "=", 
+            RowBox[{"Delete", "[", 
+             RowBox[{"boidList", ",", "targetBoid"}], "]"}]}], ";"}]}], 
+         "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "This", " ", "is", " ", "for", " ", "plotting", " ", "the", " ", 
+          "boids", " ", "and", " ", "hunter"}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{"huntList", " ", "=", " ", 
+         RowBox[{"Append", "[", 
+          RowBox[{"boidList", ",", "boidHunter"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Pause", "[", "0.05", "]"}], ";"}]}], "\[IndentingNewLine]", 
+      "]"}]}], "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", "\"\<Done, evaluating.\>\"", "]"}], " ", ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"a", "=", 
+     RowBox[{"Interpolation", "[", 
+      RowBox[{"numBoidsList", ",", 
+       RowBox[{"Method", "\[Rule]", "\"\<Spline\>\""}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"b", "=", 
+     RowBox[{"numberBoids", "-", "numBoidsList"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"c", "=", 
+     RowBox[{
+      RowBox[{"PadLeft", "[", 
+       RowBox[{"b", ",", 
+        RowBox[{
+         RowBox[{"Length", "[", "b", "]"}], "+", "1"}]}], "]"}], "-", 
+      RowBox[{"PadRight", "[", 
+       RowBox[{"b", ",", 
+        RowBox[{
+         RowBox[{"Length", "[", "b", "]"}], "+", "1"}], ",", 
+        RowBox[{"b", "[", 
+         RowBox[{"[", 
+          RowBox[{"Length", "[", "b", "]"}], "]"}], "]"}]}], "]"}]}]}], ";"}],
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", "\"\<Plotting living boids by calculation step\>\"", "]"}], 
+    " ", ";"}], "\[IndentingNewLine]", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"Evaluate", "[", 
+      RowBox[{"a", "[", "x", "]"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "1", ",", 
+       RowBox[{"Length", "[", "numBoidsList", "]"}]}], "}"}]}], "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "Print", "[", "\"\<Plotting population decline by calculation step\>\"", 
+     "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"ListPlot", "[", 
+    RowBox[{"LowpassFilter", "[", 
+     RowBox[{"c", ",", "0.02"}], "]"}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.763435691998173*^9, 3.7634358523555894`*^9}},
+ CellLabel->
+  "In[300]:=",ExpressionUUID->"da02f170-3425-4af6-bce1-32f6a188e8fb"]
+},
+WindowSize->{681, 676},
+WindowMargins->{{-1334, Automatic}, {132, Automatic}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 7783, 180, 846, "Input",ExpressionUUID->"cbba0478-96d9-4e2f-8ae8-4e424d237e01"],
+Cell[8344, 202, 6323, 155, 789, "Input",ExpressionUUID->"4e084b42-cf28-45c7-9231-3833074ddafb"],
+Cell[14670, 359, 5143, 118, 599, "Input",ExpressionUUID->"87486e2b-db36-45f1-9811-c7cd5aa3736f"],
+Cell[19816, 479, 15212, 393, 1264, "Input",ExpressionUUID->"b4715d86-7946-4240-a222-31f6e6af528b"],
+Cell[35031, 874, 6836, 158, 694, "Input",ExpressionUUID->"072bd0fb-1987-4b8e-a634-a20974a7ffad"],
+Cell[41870, 1034, 37844, 881, 4570, "Input",ExpressionUUID->"da02f170-3425-4af6-bce1-32f6a188e8fb"]
+}
+]
+*)
+
